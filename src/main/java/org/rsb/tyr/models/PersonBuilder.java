@@ -1,7 +1,8 @@
 package org.rsb.tyr.models;
 
 import org.rsb.tyr.enums.CrimeType;
-import org.rsb.tyr.enums.Allegation;
+import org.rsb.tyr.enums.AllegationType;
+import org.rsb.tyr.enums.CountryType;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,10 +13,10 @@ public class PersonBuilder {
   private CrimeType crimeType = CrimeType.NONE;
 
   /** Allegation(s) against the person. */
-  private Set<Allegation> allegations = Collections.emptySet();
+  private Set<AllegationType> allegationTypes = Collections.emptySet();
 
   /** Country of origin. */
-  private Country country;
+  private CountryType countryType = CountryType.GERMANY;
 
   /** Name of the person. */
   private String name;
@@ -36,18 +37,26 @@ public class PersonBuilder {
     return this;
   }
 
-  public PersonBuilder withCountry(Country country) {
-    this.country = country;
+  public PersonBuilder withCountry(CountryType countryType) {
+    this.countryType = countryType;
     return this;
   }
 
-  public PersonBuilder withAllegations(Set<Allegation> allegations) {
-    this.allegations = new HashSet<>(allegations);
+  public PersonBuilder withAllegations(Set<AllegationType> allegationTypes) {
+    this.allegationTypes = new HashSet<>(allegationTypes);
     return this;
   }
 
   public PersonBuilder withName(String name) {
     this.name = name;
     return this;
+  }
+
+  public Person build() {
+    return new Person(
+        new Crime(crimeType.name()),
+        new Country(countryType.name()),
+        new HashSet<>(Allegation.from(allegationTypes)),
+        name);
   }
 }
