@@ -21,6 +21,32 @@ public class Person {
   /** Allegation(s) against the person */
   private Set<Allegation> allegations;
 
+  /** Name of the person. */
+  private String name;
+
+  /**
+   * Returns the name of the person.
+   *
+   * @return name of the person
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Private constructor to force builder use.
+   *
+   * @param crime crime commited by the person
+   * @param country country of origin
+   * @param allegations allegation(s) against the person
+   */
+  Person(Crime crime, Country country, Set<Allegation> allegations, String name) {
+    this.crime = crime;
+    this.country = country;
+    this.allegations = allegations;
+    this.name = name;
+  }
+
   /**
    * Returns the id of the person.
    *
