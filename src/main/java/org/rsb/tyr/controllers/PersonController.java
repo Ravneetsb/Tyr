@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/persons")
+@RequestMapping("/denied")
 public class PersonController {
 
   private final PersonService personService;
@@ -19,28 +19,12 @@ public class PersonController {
     this.personService = personService;
   }
 
-  @GetMapping
+  @GetMapping("/")
   public List<Person> getAllPersons() {
     return personService.getAllPersons();
   }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Person> getPersonById(@PathVariable Long id) {
-    return personService
-        .getPersonById(id)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-  }
-
-  @GetMapping("/name/{name}")
-  public ResponseEntity<Person> getPersonByName(@PathVariable String name) {
-    return personService
-        .getPersonByName(name)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-  }
-
-  @GetMapping("/name/details/{name}")
+  @GetMapping("/{name}")
   public ResponseEntity<Person> getPersonByNameWithDetails(@PathVariable String name) {
     return personService
         .getPersonByNameWithDetails(name)
