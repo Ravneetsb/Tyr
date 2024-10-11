@@ -90,6 +90,7 @@ public class PersonProcessor {
 
   public void calculateScores() {
     personRepository.calculateScores();
+    personRepository.normalizeScores();
   }
 
   public List<Person> getByScores() {
@@ -99,5 +100,4 @@ public class PersonProcessor {
   public Double getScore(String name) {
     return personRepository.getScore(name);
   }
-
 }

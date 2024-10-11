@@ -43,4 +43,8 @@ public interface PersonRepository extends Neo4jRepository<Person, Long> {
 
   @Query("match (p: Person {name:$0}) return p.score")
   Double getScore(String name);
+
+  @Transactional
+  @Query("match (p: Person) with sum(p.score) as total match (p: Person) set p.score = p.score / total")
+  void normalizeScores();
 }
