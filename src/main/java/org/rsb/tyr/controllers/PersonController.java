@@ -1,12 +1,12 @@
 package org.rsb.tyr.controllers;
 
+import java.util.Comparator;
+import java.util.List;
 import org.rsb.tyr.models.Person;
 import org.rsb.tyr.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/denied")
@@ -21,7 +21,10 @@ public class PersonController {
 
   @GetMapping("/")
   public List<Person> getAllPersons() {
-    return personService.getAllPersons();
+    personService.calculateScores();
+    var list = personService.getAllPersons();
+    list.sort(Comparator.comparingDouble(Person::getScore).reversed());
+    return list;
   }
 
   @GetMapping("/{name}")
