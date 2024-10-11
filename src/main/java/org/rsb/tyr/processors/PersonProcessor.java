@@ -83,7 +83,21 @@ public class PersonProcessor {
       n.setCrime(crimeRepository.getCrime(name));
       n.setCountry(countryRepository.findByName(name));
       n.setAllegations(allegationRepository.findByName(name));
+      n.setScore(personRepository.getScore(name));
     }
     return Optional.ofNullable(n);
   }
+
+  public void calculateScores() {
+    personRepository.calculateScores();
+  }
+
+  public List<Person> getByScores() {
+    return personRepository.getByScores();
+  }
+
+  public Double getScore(String name) {
+    return personRepository.getScore(name);
+  }
+
 }
