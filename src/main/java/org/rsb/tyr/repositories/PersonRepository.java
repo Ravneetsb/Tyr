@@ -45,6 +45,18 @@ public interface PersonRepository extends Neo4jRepository<Person, Long> {
   Double getScore(String name);
 
   @Transactional
-  @Query("match (p: Person) with sum(p.score) as total match (p: Person) set p.score = p.score / total")
+  @Query(
+      "match (p: Person) with sum(p.score) as total match (p: Person) set p.score = p.score / total")
   void normalizeScores();
+
+  @Transactional
+  @Query("match (p: Person) set p.entryAllowed = true")
+  void allowEntry(String name);
+
+  @Transactional
+  @Query("match (p: Person) set p.entryAllowed = false")
+  void disallowEntry(String name);
+
+  @Query("match (p: Person {name:$0}) return p.entryAllowed")
+  Boolean isEntryAllowed(String name);
 }
