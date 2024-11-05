@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Person Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<h1>Details for <span th:text="${person.name}">Name</span></h1>
+<p>Score: <span th:text="${person.score}">Score</span></p>
+<a href="api/denied/">Back to List</a>
+</body>
+</html>

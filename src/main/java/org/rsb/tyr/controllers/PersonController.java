@@ -5,11 +5,12 @@ import java.util.List;
 import org.rsb.tyr.models.Person;
 import org.rsb.tyr.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/denied")
+@Controller
+@RequestMapping("/api/list")
 public class PersonController {
 
   private final PersonService personService;
@@ -20,29 +21,29 @@ public class PersonController {
   }
 
   @GetMapping("/")
-  public List<Person> getAllPersons() {
+  public String getAllPersons(Model model) {
     personService.calculateScores();
-    var list = personService.getAllPersons();
+    List<Person> list = personService.getAllPersons();
     list.sort(Comparator.comparingDouble(Person::getScore).reversed());
-    return list;
+    model.addAttribute("persons", list);
+    return "person-list"; // Maps to src/main/resources/templates/person-list.html
   }
 
   @GetMapping("/{name}")
-  public ResponseEntity<Person> getPersonByNameWithDetails(@PathVariable String name) {
+  public String getPersonByNameWithDetails(@PathVariable String name, Model model) {
     return personService
         .getPersonByNameWithDetails(name)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+        .map(
+            person -> {
+              model.addAttribute("person", person);
+              return "person-details";
+            })
+        .orElse("person-not-found");
   }
 
-  @PostMapping
-  public Person createPerson(@RequestBody Person person) {
-    return personService.createPerson(person);
-  }
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
-    personService.deletePerson(id);
-    return ResponseEntity.noContent().build();
+  @PostMapping("/create")
+  public String createPerson(@ModelAttribute Person person, Model model) {
+    personService.createPerson(person);
+    return "redirect:/api/list/"; // Redirects to list all persons
   }
 }

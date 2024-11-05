@@ -1,0 +1,13 @@
+package org.rsb.tyr.repositories;
+
+import java.util.Optional;
+import org.rsb.tyr.models.User;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.neo4j.repository.query.Query;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends Neo4jRepository<User, Long> {
+  @Query("MATCH (u:User {name:$name})-[r:ROLE]->(a:AuthLevel) RETURN u, a, r")
+  Optional<User> findByName(String name);
+}

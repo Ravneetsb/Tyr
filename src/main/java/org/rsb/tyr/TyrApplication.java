@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TyrApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(TyrApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(TyrApplication.class, args);
+  }
 }

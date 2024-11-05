@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        .dashboard-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .welcome-message {
+            margin-bottom: 20px;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <h1 class="title">Dashboard</h1>
+    <div class="welcome-message">
+        Welcome, <span th:text="${person.getName()}"></span>!
+    </div>
+    <div>
+        Your role: <span th:text="${person.getAuthLevel().getName()}"></span>
+    </div>
+    <br>
+    <a href="/logout" class="logout-btn">Logout</a>
+</div>
+</body>
+</html>
