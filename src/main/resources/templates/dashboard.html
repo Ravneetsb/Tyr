@@ -1,93 +1,84 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard - TYR</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .endpoint-link {
+            color: #485fc7;
+            text-decoration: none;
+        }
+
+        .endpoint-link:hover {
+            text-decoration: underline;
+        }
+
+        .non-get-endpoint {
+            color: inherit;
+            cursor: default;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar is-light" role="navigation" aria-label="main navigation">
+<nav class="navbar is-light">
     <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-            <span class="has-text-weight-bold is-size-4">TYR</span>
+        <a href="/" class="navbar-item">
+            <span class="icon"></span>
+            <span class="has-text-weight-bold is-size-4 ml-2">TYR</span>
         </a>
-    </div>
-
-    <div class="navbar-end">
-        <div class="navbar-item">
-            <div class="buttons">
-                <a href="/logout" class="button is-danger">
-                        <span class="icon">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </span>
-                    <span>Logout</span>
-                </a>
-            </div>
-        </div>
     </div>
 </nav>
 
 <section class="section">
     <div class="container">
-        <!-- User Info Box -->
-        <div class="box mb-6">
-            <h1 class="title is-3">Dashboard</h1>
-            <div class="content">
-                <div class="block">
-                    <p class="subtitle is-4">
-                        Welcome, <span class="has-text-weight-bold" th:text="${person.getName()}"></span>!
-                    </p>
-                </div>
-                <div class="block">
-                    <div class="tags has-addons">
-                        <span class="tag is-dark">Role</span>
-                        <span class="tag is-info" th:text="${person.getAuthLevel().getName()}"></span>
+        <div class="columns">
+            <div class="column">
+                <h1 class="title">Dashboard</h1>
+
+                <div class="box">
+                    <h2 class="title is-4">Available Endpoints</h2>
+                    <div class="table-container">
+                        <table class="table is-fullwidth">
+                            <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Path</th>
+                                <th>Controller</th>
+                                <th>Handler</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="endpoint : ${endpoints}">
+                                <td>
+                                    <span th:each="method : ${endpoint.methods()}"
+                                          th:class="'tag ' + (${method == 'GET'} ? 'is-info' : (${method == 'POST'} ? 'is-success' : (${method == 'PUT'} ? 'is-warning' : (${method == 'DELETE'} ? 'is-danger' : 'is-light')))) + ' mr-1'"
+                                          th:text="${method}">
+                                    </span>
+                                </td>
+                                <td>
+                                    <a th:if="${endpoint.methods().contains('GET')}"
+                                       th:href="${endpoint.path()}"
+                                       th:text="${endpoint.path()}"
+                                       class="endpoint-link">
+                                    </a>
+                                    <span th:unless="${endpoint.methods().contains('GET')}"
+                                          th:text="${endpoint.path()}"
+                                          class="non-get-endpoint">
+                                    </span>
+                                </td>
+                                <td th:text="${endpoint.controller()}"></td>
+                                <td th:text="${endpoint.methodName()}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Endpoints Box -->
-        <div class="box">
-            <h2 class="title is-4">Available Endpoints</h2>
-            <div class="table-container">
-                <table class="table is-fullwidth">
-                    <thead>
-                    <tr>
-                        <th>Method</th>
-                        <th>Path</th>
-                        <th>Controller</th>
-                        <th>Handler</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="endpoint : ${endpoints}">
-                        <td>
-                                    <span th:each="method : ${endpoint.methods()}"
-                                          th:class="|tag ${method == 'GET' ? 'is-info' : method == 'POST' ? 'is-success' : method == 'PUT' ? 'is-warning' : method == 'DELETE' ? 'is-danger' : 'is-light'} mr-1|"
-                                          th:text="${method}">
-                                    </span>
-                        </td>
-                        <td th:text="${endpoint.path()}"></td>
-                        <td th:text="${endpoint.controller()}"></td>
-                        <td th:text="${endpoint.methodName()}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 </section>
-
-<footer class="footer">
-    <div class="content has-text-centered">
-        <p>
-            <strong>Dashboard</strong> by Tyr. All rights reserved.
-        </p>
-    </div>
-</footer>
 </body>
 </html>
