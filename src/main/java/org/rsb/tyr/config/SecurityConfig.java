@@ -111,7 +111,7 @@ public class SecurityConfig {
                     .authenticated()
 
                     // Standard user endpoints
-                    .requestMatchers("/profile/**", "/basic-features/**")
+                    .requestMatchers("/profile/**", "/basic/**")
                     .hasAnyAuthority("ROLE_STANDARD", "ROLE_ADMIN")
 
                     // Admin-only endpoints
