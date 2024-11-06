@@ -23,6 +23,7 @@
     </style>
 </head>
 <body>
+
 <nav class="navbar is-light">
     <div class="navbar-brand">
         <a href="/" class="navbar-item">
@@ -37,7 +38,35 @@
         <div class="columns">
             <div class="column">
                 <h1 class="title">Dashboard</h1>
-
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a href="/logout" class="button is-danger">
+                        <span class="icon">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </span>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="box">
+                        <div class="content">
+                            <div class="block">
+                                <p class="subtitle is-4">
+                                    Welcome, <span class="has-text-weight-bold" th:text="${person.getName()}"></span>!
+                                </p>
+                            </div>
+                            <div class="block">
+                                <div class="tags has-addons">
+                                    <span class="tag is-dark">Role</span>
+                                    <span class="tag is-info" th:text="${person.getAuthLevel().getName()}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="box">
                     <h2 class="title is-4">Available Endpoints</h2>
                     <div class="table-container">
