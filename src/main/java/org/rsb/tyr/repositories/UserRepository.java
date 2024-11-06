@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends Neo4jRepository<User, Long> {
   @Query("MATCH (u:User {name:$name})-[r:ROLE]->(a:AuthLevel) RETURN u, a, r")
   Optional<User> findByName(String name);
+
+  @Query("match (a:AuthLevel {name:$authLevel}) CREATE (u:User {name:$user, password:$password})-[:ROLE]->(a)")
+  void registerNewUser(String user, String password, String authLevel);
 }

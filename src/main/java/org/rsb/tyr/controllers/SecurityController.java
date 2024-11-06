@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/check")
+@RequestMapping("/api/check")
 public class SecurityController {
   private final SecurityService securityService;
 

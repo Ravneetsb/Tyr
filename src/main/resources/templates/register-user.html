@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create New User - TYR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<nav class="navbar-brand">
+    <a href="/" class="navbar-item">
+        <span class="icon"></span>
+        <span class="has-text-weight-bold is-size-4 ml-2">TYR</span>
+    </a>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-6">
+                <div class="box">
+                    <h1 class="title has-text-centered">Create New User</h1>
+
+                    <form action="/admin/register" method="post">
+                        <div class="field">
+                            <label class="label">Name</label>
+                            <div class="control has-icons-left">
+                                <input type="text" class="input" name="name" required>
+                                <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                  </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Password</label>
+                            <div class="control has-icons-left">
+                                <input type="password" class="input" name="password" required minlength="8">
+                                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                            </div>
+                            <p class="help">Password must be at least 8 characters long</p>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Confirm Password</label>
+                            <div class="control has-icons-left">
+                                <input type="password" class="input" name="confirmPassword" required minlength="8">
+                                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Role</label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select name="authLevel" required>
+                                        <option value="">Select role</option>
+                                        <option th:each="level : ${authLevels}"
+                                                th:value="${level.name}"
+                                                th:text="${level.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <span class="icon is-small is-left">
+                    <i class="fas fa-users"></i>
+                  </span>
+                            </div>
+                        </div>
+
+                        <div class="notification is-danger is-light" th:if="${error != null}" th:text="${error}">
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <button type="submit" class="button is-primary is-fullwidth">
+                    <span class="icon">
+                      <i class="fas fa-user-plus"></i>
+                    </span>
+                                    <span>Create User</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="has-text-centered mt-4">
+                        <a href="/admin/users" class="button is-light">
+                <span class="icon">
+                  <i class="fas fa-arrow-left"></i>
+                </span>
+                            <span>Back to Users</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

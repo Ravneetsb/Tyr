@@ -18,4 +18,11 @@ public class UserService {
   public Optional<User> getUserByName(String name) {
     return repository.findByName(name);
   }
+
+  public void registerNewUser(User userDTO) {
+    var user = userDTO.getName();
+    var password = userDTO.getPassword();
+    var authLevel = userDTO.getAuthLevel().getName();
+    repository.registerNewUser(user, password, authLevel);
+  }
 }
