@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -26,6 +28,13 @@ public class AdminController {
   public String register(Model model) {
     model.addAttribute("authLevels", authLevelRepository.findAll());
     return "register-user";
+  }
+
+  @GetMapping("/users")
+  public String listUsers(Model model) {
+    List<User> users = userService.getAllUsers();
+    model.addAttribute("users", users);
+    return "users-list";
   }
 
   @PostMapping("/register")

@@ -2,17 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Dashboard</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard - TYR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 <nav class="navbar is-light" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="/">
-            <strong>Tyr</strong>
+            <span class="has-text-weight-bold is-size-4">TYR</span>
         </a>
     </div>
 
@@ -32,7 +32,8 @@
 
 <section class="section">
     <div class="container">
-        <div class="box">
+        <!-- User Info Box -->
+        <div class="box mb-6">
             <h1 class="title is-3">Dashboard</h1>
             <div class="content">
                 <div class="block">
@@ -46,6 +47,36 @@
                         <span class="tag is-info" th:text="${person.getAuthLevel().getName()}"></span>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Endpoints Box -->
+        <div class="box">
+            <h2 class="title is-4">Available Endpoints</h2>
+            <div class="table-container">
+                <table class="table is-fullwidth">
+                    <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Path</th>
+                        <th>Controller</th>
+                        <th>Handler</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="endpoint : ${endpoints}">
+                        <td>
+                                    <span th:each="method : ${endpoint.methods()}"
+                                          th:class="|tag ${method == 'GET' ? 'is-info' : method == 'POST' ? 'is-success' : method == 'PUT' ? 'is-warning' : method == 'DELETE' ? 'is-danger' : 'is-light'} mr-1|"
+                                          th:text="${method}">
+                                    </span>
+                        </td>
+                        <td th:text="${endpoint.path()}"></td>
+                        <td th:text="${endpoint.controller()}"></td>
+                        <td th:text="${endpoint.methodName()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

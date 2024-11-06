@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Users List - TYR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<nav class="navbar-brand">
+    <a href="/" class="navbar-item">
+        <span class="icon"></span>
+        <span class="has-text-weight-bold is-size-4 ml-2">TYR</span>
+    </a>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <div class="level">
+                    <div class="level-left">
+                        <h1 class="title">Users</h1>
+                    </div>
+                    <div class="level-right">
+                        <a href="/admin/register" class="button is-primary">
+                                <span class="icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </span>
+                            <span>Add User</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="notification is-success is-light" th:if="${success != null}" th:text="${success}">
+                </div>
+
+                <div class="box">
+                    <table class="table is-fullwidth">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.name}"></td>
+                            <td th:text="${user.authLevel.name}"></td>
+                            <td>
+                                <div class="buttons are-small">
+                                    <a th:href="@{/admin/users/{id}/edit(id=${user.id})}"
+                                       class="button is-info">
+                                                <span class="icon">
+                                                    <i class="fas fa-edit"></i>
+                                                </span>
+                                    </a>
+                                    <form th:action="@{/admin/users/{id}/delete(id=${user.id})}"
+                                          method="post"
+                                          class="is-inline"
+                                          onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                        <button type="submit" class="button is-danger">
+                                                    <span class="icon">
+                                                        <i class="fas fa-trash"></i>
+                                                    </span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${users.empty}">
+                            <td colspan="3" class="has-text-centered">No users found</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
