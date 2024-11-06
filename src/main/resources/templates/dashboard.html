@@ -6,40 +6,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <style>
-        .dashboard-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-
-        .welcome-message {
-            margin-bottom: 20px;
-        }
-
-        .logout-btn {
-            padding: 10px 20px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<div class="dashboard-container">
-    <h1 class="title">Dashboard</h1>
-    <div class="welcome-message">
-        Welcome, <span th:text="${person.getName()}"></span>!
+<nav class="navbar is-light" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            <strong>My App</strong>
+        </a>
     </div>
-    <div>
-        Your role: <span th:text="${person.getAuthLevel().getName()}"></span>
+
+    <div class="navbar-end">
+        <div class="navbar-item">
+            <div class="buttons">
+                <a href="/logout" class="button is-danger">
+                        <span class="icon">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </span>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
     </div>
-    <br>
-    <a href="/logout" class="logout-btn">Logout</a>
-</div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="box">
+            <h1 class="title is-3">Dashboard</h1>
+            <div class="content">
+                <div class="block">
+                    <p class="subtitle is-4">
+                        Welcome, <span class="has-text-weight-bold" th:text="${person.getName()}"></span>!
+                    </p>
+                </div>
+                <div class="block">
+                    <div class="tags has-addons">
+                        <span class="tag is-dark">Role</span>
+                        <span class="tag is-info" th:text="${person.getAuthLevel().getName()}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <strong>Dashboard</strong> by Tyr. All rights reserved.
+        </p>
+    </div>
+</footer>
 </body>
 </html>
