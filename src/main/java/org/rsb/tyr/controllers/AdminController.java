@@ -30,6 +30,12 @@ public class AdminController {
     return "register-user";
   }
 
+  @GetMapping("/check")
+  public String check(Model model) {
+    model.addAttribute("authLevels", authLevelRepository.findAll());
+    return "check-user";
+  }
+
   @GetMapping("/users")
   public String listUsers(Model model) {
     List<User> users = userService.getAllUsers();

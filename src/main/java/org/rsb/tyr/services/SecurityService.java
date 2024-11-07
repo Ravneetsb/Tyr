@@ -17,15 +17,15 @@ public class SecurityService {
         return processor.check(name);
     }
 
-    public void allowEntry(String name) {
-        processor.allowEntry(name);
+    public void allowEntry(String personName, String userName) {
+        processor.allowEntry(personName, userName);
     }
 
     public Boolean isEntryAllowed(String name) {
         return processor.isEntryAllowed(name);
     }
 
-    public void denyEntry(String name) {
-        processor.denyEntry(name);
+    public void denyEntry(String personName, String userName) {
+        processor.denyEntry(personName, userName);
     }
 }

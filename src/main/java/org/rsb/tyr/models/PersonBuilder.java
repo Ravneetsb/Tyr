@@ -1,3 +1,4 @@
+/*
 package org.rsb.tyr.models;
 
 import org.rsb.tyr.enums.CrimeType;
@@ -9,29 +10,41 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PersonBuilder {
-  /** The crime committed by the person. */
+  */
+/** The crime committed by the person. *//*
+
   private CrimeType crimeType = CrimeType.NONE;
 
-  /** Allegation(s) against the person. */
+  */
+/** Allegation(s) against the person. *//*
+
   private Set<AllegationType> allegationTypes = Collections.emptySet();
 
-  /** Country of origin. */
+  */
+/** Country of origin. *//*
+
   private CountryType countryType = CountryType.GERMANY;
 
-  /** Name of the person. */
+  */
+/** Name of the person. *//*
+
   private String name;
 
-  /** Default constructor. */
+  */
+/** Default constructor. *//*
+
   public PersonBuilder() {
     // Does nothing. Default constructor.
   }
 
-  /**
+  */
+/**
    * Sets the crime committed by the person.
    *
    * @param crimeType crime committed by the person
    * @return this builder
-   */
+   *//*
+
   public PersonBuilder withCrime(CrimeType crimeType) {
     this.crimeType = crimeType;
     return this;
@@ -60,3 +73,4 @@ public class PersonBuilder {
         name);
   }
 }
+*/

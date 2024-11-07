@@ -18,4 +18,10 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
   @Query("MATCH (u:User)-[r:ROLE]->(a:AuthLevel) RETURN u, a, r")
   List<User> findAllUsers();
+
+  @Query("MATCH (u:User {name:$userName}) SET u.denials = u.denials + 1")
+  void denyEntry(String userName);
+
+  @Query("match (u:User {name:$userName}) set u.allowed = u.allowed + 1")
+  void allowEntry(String userName);
 }

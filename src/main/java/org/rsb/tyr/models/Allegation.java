@@ -28,4 +28,6 @@ public class Allegation {
     allegationTypes.forEach(allegationType -> all.add(new Allegation(allegationType.name())));
     return all;
   }
+
+
 }

@@ -17,6 +17,10 @@ public class User {
   /** Password of the User */
   private String password;
 
-  @Relationship(type = "ROLE")
+  private int allowed;
+
+  private int denials;
+
+  @Relationship(type = "ROLE", direction = Relationship.Direction.OUTGOING)
   private AuthLevel authLevel;
 }
