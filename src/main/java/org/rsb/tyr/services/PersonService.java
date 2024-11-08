@@ -1,5 +1,6 @@
 package org.rsb.tyr.services;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import org.rsb.tyr.models.Person;
@@ -29,6 +30,12 @@ public class PersonService {
   }
 
   public Person createPerson(Person person) {
+    String name = formatEnum(person.getName());
+    HashSet<String> allegations = new HashSet<>();
+    for (var allegation : person.getAllegations()) {
+      allegations.add(formatEnum(allegation.getName()));
+    }
+    String crime = formatEnum(person.getCrime().getName());
     return personProcessor.save(person);
   }
 
@@ -55,5 +62,19 @@ public class PersonService {
 
   public List<Person> getByScores() {
     return personProcessor.getByScores();
+  }
+
+  public String formatEnum(String enumValue) {
+    String[] words = enumValue.split("_");
+    StringBuilder result = new StringBuilder();
+
+    for (int i = 0; i < words.length; i++) {
+      if (i > 0) {
+        result.append(" ");
+      }
+      String word = words[i].toLowerCase();
+      result.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
+    }
+    return result.toString();
   }
 }
