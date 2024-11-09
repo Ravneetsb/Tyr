@@ -23,7 +23,6 @@ public class CrimeService {
   }
 
   public Crime getCrime(CrimeType type) {
-    // return crime that has the same name as the type.
     Optional<Crime> crime = crimeRepository.findByName(type.name());
     return crime.orElse(null);
   }

@@ -30,11 +30,10 @@ public class SecurityProcessor {
   public String check(String name) {
     Person person = personRepository.getByName(name);
     if (person == null) {
-      // Do nothing.
+      return "PERSON NOT FOUND";
     } else {
       return "SECURITY ALERT: PERSON IS DANGEROUS. DANGER SCORE: " + person.getScore();
     }
-    return "NONE";
   }
 
   public void allowEntry(String personName, String userName) {
