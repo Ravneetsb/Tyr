@@ -1,214 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Check Person Status</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <style>
-        .result-box {
-            display: none;
-            transition: all 0.3s ease;
-        }
-
-        .loader-wrapper {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .danger-score {
-            font-size: 2rem;
-            font-weight: bold;
-            text-align: center;
-            margin: 1rem 0;
-        }
-
-        .score-high {
-            color: #ff3860;
-        }
-
-        .score-medium {
-            color: #ffdd57;
-        }
-
-        .score-low {
-            color: #23d160;
-        }
-    </style>
-</head>
-<body>
-<section class="section">
-    <div class="container">
-        <div class="columns is-centered">
-            <div class="column is-6">
-                <div class="box">
-                    <h1 class="title is-3 has-text-centered mb-6">Check Person Status</h1>
-
-                    &lt;!&ndash; Search Form &ndash;&gt;
-                    <form id="searchForm" class="mb-5">
-                        <div class="field">
-                            <label class="label">Person Name</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" id="searchName" name="name"
-                                       placeholder="Enter name to search" required>
-                                <span class="icon is-small is-left">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <div class="control">
-                                <button type="submit" class="button is-link is-fullwidth">
-                                        <span class="icon">
-                                            <i class="fas fa-search"></i>
-                                        </span>
-                                    <span>Search</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-                    &lt;!&ndash; Loading Spinner &ndash;&gt;
-                    <div class="loader-wrapper">
-                        <div class="loader is-loading"></div>
-                    </div>
-
-                    &lt;!&ndash; Person Found Result &ndash;&gt;
-                    <div id="personFound" class="result-box">
-                        <article class="message is-danger">
-                            <div class="message-header">
-                                <p>Security Alert</p>
-                                <button class="delete" aria-label="delete"></button>
-                            </div>
-                            <div class="message-body">
-                                <div class="content">
-                                    <p class="has-text-centered mb-4">
-                                        <i class="fas fa-exclamation-triangle fa-3x has-text-danger"></i>
-                                    </p>
-                                    <p class="has-text-centered">This person has been flagged in our system.</p>
-                                    <div id="dangerScore" class="danger-score"></div>
-                                    <div class="buttons is-centered mt-4">
-                                        <button class="button is-danger is-outlined" id="denyButton">
-                                                <span class="icon">
-                                                    <i class="fas fa-ban"></i>
-                                                </span>
-                                            <span>Deny Entry</span>
-                                        </button>
-                                        <button class="button is-success is-outlined" id="allowButton">
-                                                <span class="icon">
-                                                    <i class="fas fa-check"></i>
-                                                </span>
-                                            <span>Allow Entry</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-
-                    &lt;!&ndash; Person Not Found Result &ndash;&gt;
-                    <div id="personNotFound" class="result-box">
-                        <article class="message is-success">
-                            <div class="message-header">
-                                <p>Search Result</p>
-                                <button class="delete" aria-label="delete"></button>
-                            </div>
-                            <div class="message-body">
-                                <div class="content has-text-centered">
-                                    <p class="mb-4">
-                                        <i class="fas fa-check-circle fa-3x has-text-success"></i>
-                                    </p>
-                                    <p>No security alerts found for this person.</p>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<script>
-    $(document).ready(function () {
-        // Close message boxes when clicking the delete button
-        $('.delete').on('click', function () {
-            $(this).closest('.result-box').hide();
-        });
-
-        // Handle form submission
-        $('#searchForm').on('submit', function (e) {
-            e.preventDefault();
-            const name = $('#searchName').val().trim();
-
-            if (!name) {
-                return;
-            }
-
-            // Show loading spinner
-            $('.loader-wrapper').show();
-            $('.result-box').hide();
-
-            // Check person status
-            $.get(`/basic/security/${encodeURIComponent(name)}`)
-                .done(function (response) {
-                    $('.loader-wrapper').hide();
-
-                    if (response === 'NONE') {
-                        $('#personNotFound').show();
-                    } else {
-                        // Extract score from response
-                        const scoreMatch = response.match(/DANGER SCORE: ([\d.]+)/);
-                        const score = scoreMatch ? parseFloat(scoreMatch[1]) : 0;
-
-                        // Update danger score display
-                        const scoreElement = $('#dangerScore');
-                        scoreElement.text(`Risk Score: ${score.toFixed(3)}`);
-
-                        // Add appropriate color class based on score
-                        scoreElement.removeClass('score-high score-medium score-low');
-                        if (score > 0.035) {
-                            scoreElement.addClass('score-high');
-                        } else if (score > 0.025) {
-                            scoreElement.addClass('score-medium');
-                        } else {
-                            scoreElement.addClass('score-low');
-                        }
-
-                        $('#personFound').show();
-
-                        // Set up action buttons
-                        $('#denyButton').off('click').on('click', function () {
-                            $.get(`/basic/security/deny/${encodeURIComponent(name)}`)
-                                .done(function () {
-                                    alert('Entry denied');
-                                });
-                        });
-
-                        $('#allowButton').off('click').on('click', function () {
-                            $.get(`/basic/security/allow/${encodeURIComponent(name)}`)
-                                .done(function () {
-                                    alert('Entry allowed');
-                                });
-                        });
-                    }
-                })
-                .fail(function (error) {
-                    $('.loader-wrapper').hide();
-                    alert('Error checking person status: ' + error.responseText);
-                });
-        });
-    });
-</script>
-</body>
-</html>
--->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -328,6 +117,25 @@
             </div>
         </div>
     </div>
+    <nav class="breadcrumb mt-5" aria-label="breadcrumbs">
+        <ul>
+            <li>
+                <a href="/dashboard">
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/api/list/">
+                    <span>Person List</span>
+                </a>
+            </li>
+            <li>
+                <a href="/basic/check/">
+                    <span>Visitor Check</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </section>
 </body>
 </html>
