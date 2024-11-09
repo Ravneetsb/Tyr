@@ -27,12 +27,9 @@ public class LoginController {
 
   @GetMapping("/dashboard")
   public String dashboard(Model model) {
-    // Get user information
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String userName = authentication.getName();
     var user = service.getUserByName(userName).get();
-
-    // Add both user and endpoints to the model
     model.addAttribute("person", user);
     model.addAttribute("endpoints", endpointLister.getEndpoints());
 

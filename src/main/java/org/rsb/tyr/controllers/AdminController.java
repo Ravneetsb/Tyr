@@ -52,7 +52,6 @@ public class AdminController {
       Model model,
       RedirectAttributes redirectAttributes) {
 
-    // Validation
     if (!password.equals(confirmPassword)) {
       model.addAttribute("error", "Passwords do not match");
       model.addAttribute("authLevels", authLevelRepository.findAll());
@@ -66,25 +65,21 @@ public class AdminController {
     }
 
     try {
-      // Create new user
       User user = new User();
       user.setName(name);
 
-      // Hash password
       Authenticator.Password<Authenticator.PlainPassword> plainPassword =
           Authenticator.Password.plain(password);
       Authenticator.Password<Authenticator.HashedPassword> hashedPassword =
           Authenticator.hashPassword(plainPassword);
       user.setPassword(hashedPassword.getValue());
 
-      // Set auth level
       AuthLevel authLevelObj =
           authLevelRepository
               .findByName(authLevel)
               .orElseThrow(() -> new IllegalArgumentException("Invalid auth level"));
       user.setAuthLevel(authLevelObj);
 
-      // Save user
       userService.registerNewUser(user);
 
       redirectAttributes.addFlashAttribute("success", "User registered successfully");
